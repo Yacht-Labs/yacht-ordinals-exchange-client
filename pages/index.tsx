@@ -27,7 +27,7 @@ const Home: NextPage = () => {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
   useEffect(() => {
-    document.querySelector("body").classList.add("bg-yacht-white");
+    // document.querySelector("body").classList.add("bg-yacht-white");
     const fetchData = async () => {
       try {
         const response = await fetch("http://192.168.1.80:3000/listings");

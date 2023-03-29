@@ -13,9 +13,9 @@ const List: NextPage = () => {
   const [inscriptionId, setInscriptionId] = useState("");
   const [isValid, setIsValid] = useState(false);
 
-  useEffect(() => {
-    document.querySelector("body").classList.add("bg-yacht-white");
-  }, []);
+  // useEffect(() => {
+  //   document.querySelector("body").classList.add("bg-yacht-white");
+  // }, []);
 
   const fetchData = async (id: string) => {
     try {

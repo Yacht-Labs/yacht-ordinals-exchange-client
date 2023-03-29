@@ -37,7 +37,6 @@ const Buy: React.FC<BuyPageProps> = ({ id }) => {
   }, []);
 
   return (
-    <body className="bg-yacht-white h-screen">
       <div className="flex flex-col h-full">
         <div className="h-min">
           <Header
@@ -53,11 +52,10 @@ const Buy: React.FC<BuyPageProps> = ({ id }) => {
                 inscriptionId={listing.inscriptionId}
               />
             ) : null}
-            {address ? <Button>Buy</Button> : null}
+            {address ? <Button className="w-32">Buy</Button> : null}
           </div>
         </div>
       </div>
-    </body>
   );
 };
 

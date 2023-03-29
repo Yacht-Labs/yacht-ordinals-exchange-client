@@ -16,3 +16,12 @@
   font-family: "akkurat-regular";
   src: url("../design/Akkurat-Regular.ttf");
 }
+
+.custom-button {
+  background: rgb(107 33 168);
+  padding: 10px;
+  color: white;
+  border-radius: 8px;
+  margin-left: 4px;
+  font-weight: bold;
+}
