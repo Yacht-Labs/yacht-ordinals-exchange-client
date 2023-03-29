@@ -1,26 +1,18 @@
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "bookmania";
+  src: url("../design/BookmaniaRegular.otf");
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+@font-face {
+  font-family: "akkurat-bold";
+  src: url("../design/Akkurat-Bold.otf");
 }
 
-* {
-  box-sizing: border-box;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: white;
-    background: black;
-  }
+@font-face {
+  font-family: "akkurat-regular";
+  src: url("../design/Akkurat-Regular.ttf");
 }
