@@ -13,6 +13,10 @@ const List: NextPage = () => {
   const [inscriptionId, setInscriptionId] = useState("");
   const [isValid, setIsValid] = useState(false);
 
+  useEffect(() => {
+    document.querySelector("body").classList.add("bg-yacht-white");
+  }, []);
+
   const fetchData = async (id: string) => {
     try {
       const response = await fetch(
@@ -45,49 +49,47 @@ const List: NextPage = () => {
   const listOrdinal = async () => {
     alert("Listing ordinal");
   };
-
+  // <body className="bg-yacht-white h-screen">
   return (
-    <body className="bg-yacht-white h-screen">
-      <div className="flex flex-col h-full">
-        <div className="h-min">
-          <Header
-            onClickConnect={connectMetaMask}
-            onClickDisconnect={disconnectMetaMask}
-            ethAddress={address}
-          />
-        </div>
-        <div className="flex flex-col items-center">
-          <TextInput
-            label="Inscription Number"
-            id="inscriptionNumber"
-            name="inscriptionNumber"
-            placeholder="Enter the inscription number"
-            onChange={handleInscriptionNumberChange}
-          />
-          <TextInput
-            label="Price in ETH"
-            id="ethPrice"
-            name="ethPrice"
-            placeholder="Enter the price in ETH"
-            onChange={handleEthPriceChange}
-          />
-          {isValid ? (
-            <OrdinalCard
-              inscriptionNumber={inscriptionNumber}
-              ethPrice={ethPrice}
-              inscriptionId={inscriptionId}
-            />
-          ) : null}
-          {isValid && address && ethPrice ? (
-            <Button onClick={listOrdinal}>List Ordinal</Button>
-          ) : (
-            <p className="mt-4">
-              Enter valid ordinal number, price and connect wallet
-            </p>
-          )}
-        </div>
+    <div className="flex flex-col h-full">
+      <div className="h-min">
+        <Header
+          onClickConnect={connectMetaMask}
+          onClickDisconnect={disconnectMetaMask}
+          ethAddress={address}
+        />
       </div>
-    </body>
+      <div className="flex flex-col items-center">
+        <TextInput
+          label="Inscription Number"
+          id="inscriptionNumber"
+          name="inscriptionNumber"
+          placeholder="Enter the inscription number"
+          onChange={handleInscriptionNumberChange}
+        />
+        <TextInput
+          label="Price in ETH"
+          id="ethPrice"
+          name="ethPrice"
+          placeholder="Enter the price in ETH"
+          onChange={handleEthPriceChange}
+        />
+        {isValid ? (
+          <OrdinalCard
+            inscriptionNumber={inscriptionNumber}
+            ethPrice={ethPrice}
+            inscriptionId={inscriptionId}
+          />
+        ) : null}
+        {isValid && address && ethPrice ? (
+          <Button onClick={listOrdinal}>List Ordinal</Button>
+        ) : (
+          <p className="mt-4">
+            Enter valid ordinal number, price and connect wallet
+          </p>
+        )}
+      </div>
+    </div>
   );
 };
 export default List;

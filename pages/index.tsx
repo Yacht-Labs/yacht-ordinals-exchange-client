@@ -27,9 +27,9 @@ const Home: NextPage = () => {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
   useEffect(() => {
+    document.querySelector("body").classList.add("bg-yacht-white");
     const fetchData = async () => {
       try {
-        await delay(2000);
         const response = await fetch("http://192.168.1.80:3000/listings");
         if (!response.ok) {
           throw new Error("Error fetching data");
@@ -46,39 +46,37 @@ const Home: NextPage = () => {
 
     fetchData();
   }, []);
-
+  //  <body className="bg-yacht-white h-screen">
   return (
-    <body className="bg-yacht-white h-screen">
-      <div className="flex flex-col h-full">
-        <div className="h-min">
-          <Header
-            onClickConnect={connectMetaMask}
-            onClickDisconnect={disconnectMetaMask}
-            ethAddress={address}
-          />
-        </div>
-        <div className="flex justify-center">
-          <Link href="/list">
-            <Button>Sell Ordinal for ETH</Button>
-          </Link>
-        </div>
-        {loading ? (
-          <Lottie options={defaultOptions} height={280} width={280} />
-        ) : null}
-        <div className="flex flex-wrap py-8 px-8">
-          {listings.map((item) => (
-            <Link href={`/buy?id=${item.id}`}>
-              <OrdinalCard
-                key={item.id}
-                ethPrice={item.ethPrice}
-                inscriptionId={item.inscriptionId}
-                inscriptionNumber={item.inscriptionNumber}
-              />
-            </Link>
-          ))}
-        </div>
+    <div className="flex flex-col h-full">
+      <div className="h-min">
+        <Header
+          onClickConnect={connectMetaMask}
+          onClickDisconnect={disconnectMetaMask}
+          ethAddress={address}
+        />
       </div>
-    </body>
+      <div className="flex justify-center">
+        <Link href="/list">
+          <Button>Sell Ordinal for ETH</Button>
+        </Link>
+      </div>
+      {loading ? (
+        <Lottie options={defaultOptions} height={280} width={280} />
+      ) : null}
+      <div className="flex flex-wrap py-8 px-8">
+        {listings.map((item) => (
+          <Link href={`/buy?id=${item.id}`}>
+            <OrdinalCard
+              key={item.id}
+              ethPrice={item.ethPrice}
+              inscriptionId={item.inscriptionId}
+              inscriptionNumber={item.inscriptionNumber}
+            />
+          </Link>
+        ))}
+      </div>
+    </div>
   );
 };
 
