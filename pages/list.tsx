@@ -5,6 +5,8 @@ import Header from "../components/Header";
 import OrdinalCard from "../components/OrdinalCard";
 import useConnectMetaMask from "../hooks/useConnectMetaMask";
 import TextInput from "../components/TextInput";
+import Lottie from "react-lottie";
+import animationData from "../public/cubicmaths.json";
 
 const List: NextPage = () => {
   const { address, connectMetaMask, disconnectMetaMask } = useConnectMetaMask();
@@ -12,10 +14,17 @@ const List: NextPage = () => {
   const [ethPrice, setEthPrice] = useState("");
   const [inscriptionId, setInscriptionId] = useState("");
   const [isValid, setIsValid] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [btcAddress, setBtcAddress] = useState("");
 
-  // useEffect(() => {
-  //   document.querySelector("body").classList.add("bg-yacht-white");
-  // }, []);
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
 
   const fetchData = async (id: string) => {
     try {
@@ -35,6 +44,35 @@ const List: NextPage = () => {
     }
   };
 
+  const createListing = async (
+    ethAddress: string,
+    ethPrice: string,
+    inscriptionId: string,
+    inscriptionNumber: string
+  ) => {
+    const payload = {
+      ethAddress,
+      ethPrice,
+      inscriptionId,
+      inscriptionNumber,
+    };
+
+    const response = await fetch("http://localhost:3001/listings", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+    const data = await response.json();
+
+    if (data.error) {
+      console.error("Error creating listing", data.error);
+      return;
+    }
+    return data;
+  };
+
   const handleInscriptionNumberChange = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -47,9 +85,20 @@ const List: NextPage = () => {
   };
 
   const listOrdinal = async () => {
-    alert("Listing ordinal");
+    if (!loading) {
+      setLoading(true);
+      const result = await createListing(
+        address,
+        ethPrice,
+        inscriptionId,
+        inscriptionNumber
+      );
+      setLoading(false);
+      console.log(result);
+      setBtcAddress(result.taprootAddress);
+    }
   };
-  // <body className="bg-yacht-white h-screen">
+
   return (
     <div className="flex flex-col h-full">
       <div className="h-min">
@@ -88,6 +137,12 @@ const List: NextPage = () => {
             Enter valid ordinal number, price and connect wallet
           </p>
         )}
+        {loading ? (
+          <Lottie options={defaultOptions} height={280} width={280} />
+        ) : null}
+        {btcAddress ? (
+          <p className="mt-4">Send Ordinal to BTC Address: {btcAddress}</p>
+        ) : null}
       </div>
     </div>
   );

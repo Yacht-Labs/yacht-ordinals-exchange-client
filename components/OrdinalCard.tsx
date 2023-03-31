@@ -14,7 +14,7 @@ const OrdinalCard: React.FC<OrdinalCardProps> = ({
   inscriptionId,
 }) => {
   return (
-    <div className="flex flex-col px-8 py-8 justify-between">
+    <div className="flex flex-col px-8 py-8 justify-between bg-slate-300 rounded">
       <div className="flex font-bookmania py-1 text-2xl">{`#${inscriptionNumber}`}</div>
       <div className="flex">
         <img

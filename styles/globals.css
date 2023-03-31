@@ -1,6 +1,6 @@
 @tailwind base;
 @tailwind components;
-@tailwind utilities;
+
 
 @font-face {
   font-family: "bookmania";
@@ -25,3 +25,5 @@
   margin-left: 4px;
   font-weight: bold;
 }
+
+@tailwind utilities;
