@@ -7,15 +7,18 @@ import OrdinalCard from "../components/OrdinalCard";
 import useConnectMetaMask from "../hooks/useConnectMetaMask";
 import { OrdinalListing } from "../types/yoecTypes";
 import { ethers } from "ethers";
+import detectEthereumProvider from "@metamask/detect-provider";
 
 interface BuyPageProps {
   id: string;
 }
 
 const Buy: React.FC<BuyPageProps> = ({ id }) => {
-  const { address, connectMetaMask, disconnectMetaMask } = useConnectMetaMask();
+  const { address, provider, signer, connectMetaMask, disconnectMetaMask } =
+    useConnectMetaMask();
   const [listing, setListing] = useState<OrdinalListing | null>(null);
   const [buyAddress, setBuyAddress] = useState<string | null>(null);
+  const [amount, setAmount] = useState<string>("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,6 +31,7 @@ const Buy: React.FC<BuyPageProps> = ({ id }) => {
         console.log(data);
         setListing(data);
         const ba = ethers.utils.computeAddress(data.pkpPublicKey);
+        setAmount(data.ethPrice);
         setBuyAddress(ba);
       } catch (error) {
         console.error("Error:", error);
@@ -36,6 +40,30 @@ const Buy: React.FC<BuyPageProps> = ({ id }) => {
 
     fetchData();
   }, []);
+
+  const sendTransaction = async () => {
+    if (!provider || !buyAddress || !amount || !address) {
+      alert(
+        "Please fill in all the fields and make sure MetaMask is installed."
+      );
+      return;
+    }
+
+    const signer = new ethers.providers.Web3Provider(provider).getSigner();
+    const weiAmount = ethers.utils.parseEther(amount);
+
+    try {
+      const tx = await signer.sendTransaction({
+        to: buyAddress,
+        value: weiAmount,
+      });
+      await tx.wait();
+      alert(`Transaction successful! Hash: ${tx.hash}`);
+    } catch (error) {
+      console.error(error);
+      alert("Transaction failed. Please check the console for more details.");
+    }
+  };
 
   async function getPubKey(): Promise<string> {
     // Get public key for encryption with salsa20-poly1305
@@ -48,23 +76,16 @@ const Buy: React.FC<BuyPageProps> = ({ id }) => {
     return keyB64;
   }
 
-  async function decryptMessage() {
-    const account = "0xB2D7107b9bF8942e54CC16144931b3F455ddd399";
-    const structuredData = {
-      version: "x25519-xsalsa20-poly1305",
-      nonce: "3jlN/dyyvM4CJP72e93Wl0Ocl5ektKy/",
-      ephemPublicKey: "HiEow7sLRr4s230HXWCs/Oz0jvpHjnso14UGQJ6wwUM=",
-      ciphertext:
-        "IBONEkwjI72ALPTGVPN+NqOjb50Gu92So3rXXnHRlOj8LQ6fB9jUVemqR1W213gCkxCznGIjeDkN03TH96rDvw2DpD11s7aIEOKEdc/qMYY=",
-    };
+  async function decryptMessage(structuredData: any) {
     const ct = `0x${Buffer.from(
       JSON.stringify(structuredData),
       "utf8"
     ).toString("hex")}`;
     const decrypt = await window.ethereum.request({
       method: "eth_decrypt",
-      params: [ct, account],
+      params: [ct, address],
     });
+    alert(decrypt);
   }
 
   const buyOrdinal = async () => {
@@ -88,6 +109,8 @@ const Buy: React.FC<BuyPageProps> = ({ id }) => {
         body: JSON.stringify(payload),
       });
       const data = await response.json();
+      console.log(data);
+      decryptMessage(data);
     } catch (error) {}
   };
 
@@ -107,15 +130,9 @@ const Buy: React.FC<BuyPageProps> = ({ id }) => {
               inscriptionId={listing.inscriptionId}
             />
           ) : null}
-          {buyAddress ? (
-            <div className="flex flex-col items-center">
-              <p className="font-akkurat-bold">To purchase send ETH to:</p>
-              <p className="font-bookmania">{buyAddress}</p>
-            </div>
-          ) : null}
-          {address ? (
+          {listing && address ? (
             <Button onClick={buyOrdinal} className="w-32 mt-4">
-              Check Swap
+              Buy Ordinal
             </Button>
           ) : null}
         </div>
