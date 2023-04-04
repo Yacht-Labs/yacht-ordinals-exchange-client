@@ -11,6 +11,7 @@
   "dependencies": {
     "@ethersproject/transactions": "^5.7.0",
     "@lottiefiles/lottie-player": "^1.7.1",
+    "@metamask/detect-provider": "metamask/detect-provider",
     "@tailwindcss/typography": "^0.5.9",
     "autoprefixer": "^10.4.14",
     "cross-env": "^7.0.3",
