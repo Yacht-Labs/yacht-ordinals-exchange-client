@@ -95,7 +95,7 @@ const List: NextPage = () => {
       );
       setLoading(false);
       console.log(result);
-      setBtcAddress(result.taprootAddress);
+      setBtcAddress(result.pkpBtcAddress);
     }
   };
 

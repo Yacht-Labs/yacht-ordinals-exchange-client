@@ -18,7 +18,7 @@ const OrdinalCard: React.FC<OrdinalCardProps> = ({
       <div className="flex font-bookmania py-1 text-2xl">{`#${inscriptionNumber}`}</div>
       <div className="flex">
         <img
-          src={`https://ordinals.com/content/${inscriptionId}`}
+          src={`https://api.hiro.so/ordinals/v1/inscriptions/${inscriptionId}/content`}
           className="h-72"
         />
       </div>
