@@ -27,7 +27,7 @@ const Home: NextPage = () => {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
   useEffect(() => {
-    // document.querySelector("body").classList.add("bg-yacht-white");
+    console.log("baseUrl", process.env.API_BASE_URL);
     const fetchData = async () => {
       try {
         const response = await fetch(`${process.env.API_BASE_URL}/listings`);
