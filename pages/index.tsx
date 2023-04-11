@@ -30,7 +30,7 @@ const Home: NextPage = () => {
     // document.querySelector("body").classList.add("bg-yacht-white");
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:3001/listings");
+        const response = await fetch(`${process.env.API_BASE_URL}/listings`);
         if (!response.ok) {
           throw new Error("Error fetching data");
         }

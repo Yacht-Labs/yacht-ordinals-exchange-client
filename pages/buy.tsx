@@ -23,7 +23,9 @@ const Buy: React.FC<BuyPageProps> = ({ id }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:3001/listings?id=${id}`);
+        const response = await fetch(
+          `${process.env.API_BASE_URL}/listings?id=${id}`
+        );
         if (!response.ok) {
           throw new Error("Error fetching data");
         }
@@ -101,7 +103,7 @@ const Buy: React.FC<BuyPageProps> = ({ id }) => {
         isBuy: true,
       };
 
-      const response = await fetch(`http://localhost:3001/listings`, {
+      const response = await fetch(`${process.env.API_BASE_URL}/listings`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

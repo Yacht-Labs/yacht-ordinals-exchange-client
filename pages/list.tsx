@@ -57,7 +57,7 @@ const List: NextPage = () => {
       inscriptionNumber,
     };
 
-    const response = await fetch("http://localhost:3001/listings", {
+    const response = await fetch(`${process.env.API_BASE_URL}/listings`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
