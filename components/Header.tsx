@@ -1,12 +1,13 @@
 import React from "react";
 import Link from "next/link";
 import Button from "./Button";
+import { Profile } from "./Profile";
 
 interface HeaderProps {
   className?: string;
   ethAddress?: string;
-  onClickConnect: () => void;
-  onClickDisconnect: () => void;
+  onClickConnect?: () => void;
+  onClickDisconnect?: () => void;
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -25,14 +26,17 @@ const Header: React.FC<HeaderProps> = ({
           </span>
         </div>
       </Link>
-      <div className="flex-row justify-end">
+      <div className="flex-row justify-self-end">
+        <Profile />
+      </div>
+      {/* <div className="flex-row justify-end">
         <Button className="px-4" onClick={onClickConnect}>
           {ethAddress ? ethAddress : "Connect"}
         </Button>
         {ethAddress ? (
           <Button onClick={onClickDisconnect}>Disconnect</Button>
         ) : null}
-      </div>
+      </div> */}
     </div>
   );
 };

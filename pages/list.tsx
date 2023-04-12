@@ -7,9 +7,12 @@ import useConnectMetaMask from "../hooks/useConnectMetaMask";
 import TextInput from "../components/TextInput";
 import Lottie from "react-lottie";
 import animationData from "../public/cubicmaths.json";
+import { useAccount } from "wagmi";
 
 const List: NextPage = () => {
-  const { address, connectMetaMask, disconnectMetaMask } = useConnectMetaMask();
+  const { address, connector, isConnected } = useAccount();
+
+  // const { address, connectMetaMask, disconnectMetaMask } = useConnectMetaMask();
   const [inscriptionNumber, setInscriptionNumber] = useState("");
   const [ethPrice, setEthPrice] = useState("");
   const [inscriptionId, setInscriptionId] = useState("");
@@ -45,7 +48,7 @@ const List: NextPage = () => {
   };
 
   const createListing = async (
-    ethAddress: string,
+    ethAddress: string | undefined,
     ethPrice: string,
     inscriptionId: string,
     inscriptionNumber: string
@@ -103,8 +106,8 @@ const List: NextPage = () => {
     <div className="flex flex-col h-full">
       <div className="h-min">
         <Header
-          onClickConnect={connectMetaMask}
-          onClickDisconnect={disconnectMetaMask}
+          // onClickConnect={connectMetaMask}
+          // onClickDisconnect={disconnectMetaMask}
           ethAddress={address}
         />
       </div>
