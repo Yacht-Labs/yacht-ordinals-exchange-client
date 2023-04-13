@@ -1,21 +1,18 @@
 import React from "react";
+import dynamic from 'next/dynamic';
 import Link from "next/link";
 import Button from "./Button";
-import { Profile } from "./Profile";
-import { Suspense } from "react";
+//import { Profile } from "./Profile";
+const Profile = dynamic(() => import('./Profile').then((mod) => mod.Profile), {
+  ssr: false,
+});
+
 interface HeaderProps {
   className?: string;
-  ethAddress?: string;
-  onClickConnect?: () => void;
-  onClickDisconnect?: () => void;
 }
-
 
 const Header: React.FC<HeaderProps> = ({
   className,
-  ethAddress,
-  onClickConnect,
-  onClickDisconnect,
 }) => {
   return (
 
