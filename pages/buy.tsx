@@ -8,17 +8,28 @@ import useConnectMetaMask from "../hooks/useConnectMetaMask";
 import { OrdinalListing } from "../types/yoecTypes";
 import { ethers } from "ethers";
 import detectEthereumProvider from "@metamask/detect-provider";
-
+import { WagmiConfig, createClient, configureChains, mainnet } from 'wagmi'
+import { polygonMumbai } from "wagmi/chains"
+import { alchemyProvider } from 'wagmi/providers/alchemy'
+import { publicProvider } from 'wagmi/providers/public'
 interface BuyPageProps {
   id: string;
 }
+import {
+  useAccount,
+  useConnect,
+  useDisconnect,
+  useEnsAvatar,
+  useEnsName,
+} from "wagmi";
 
 const Buy: React.FC<BuyPageProps> = ({ id }) => {
-  const { address, provider, signer, connectMetaMask, disconnectMetaMask } =
-    useConnectMetaMask();
+  // const { address, provider, signer, connectMetaMask, disconnectMetaMask } = useConnectMetaMask();
   const [listing, setListing] = useState<OrdinalListing | null>(null);
   const [buyAddress, setBuyAddress] = useState<string | null>(null);
   const [amount, setAmount] = useState<string>("");
+  const [provider, setProvider] = useState<any>(null);
+  const { address, connector, isConnected } = useAccount();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,6 +52,12 @@ const Buy: React.FC<BuyPageProps> = ({ id }) => {
     };
 
     fetchData();
+    const getProvider = async () => {
+      const ethereumProvider = await detectEthereumProvider();
+      setProvider(ethereumProvider);
+    }
+    getProvider();
+
   }, []);
 
   const sendTransaction = async () => {
@@ -113,17 +130,13 @@ const Buy: React.FC<BuyPageProps> = ({ id }) => {
       const data = await response.json();
       console.log(data);
       decryptMessage(data);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   return (
     <div className="flex flex-col h-full">
       <div className="h-min">
-        <Header
-          onClickConnect={connectMetaMask}
-          onClickDisconnect={disconnectMetaMask}
-          ethAddress={address}
-        />
+        <Header />
         <div className="flex flex-col items-center">
           {listing ? (
             <OrdinalCard
@@ -133,7 +146,7 @@ const Buy: React.FC<BuyPageProps> = ({ id }) => {
             />
           ) : null}
           {listing && address ? (
-            <Button onClick={buyOrdinal} className="w-32 mt-4">
+            <Button onClick={sendTransaction} className="w-32 mt-4">
               Buy Ordinal
             </Button>
           ) : null}

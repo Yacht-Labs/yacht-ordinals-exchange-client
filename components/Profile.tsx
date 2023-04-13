@@ -7,44 +7,38 @@ import {
 } from "wagmi";
 import Button from "./Button";
 
-export function Profile() {
+interface ProfileProps {
+  ethAddress?: string;
+  onClickConnect?: () => void;
+  onClickDisconnect?: () => void;
+}
+
+export const Profile: React.FC<ProfileProps> = ({ ethAddress, onClickConnect, onClickDisconnect }) => {
   const { address, connector, isConnected } = useAccount();
-  const { data: ensAvatar } = useEnsAvatar({ address });
-  const { data: ensName } = useEnsName({ address });
   const { connect, connectors, error, isLoading, pendingConnector } =
     useConnect();
   const { disconnect } = useDisconnect();
 
-  if (isConnected) {
-    return (
-      <div>
-        {/* <img src={ensAvatar} alt="ENS Avatar" /> */}
-        {/* <div className="font-bookmania">
-          {ensName ? `${ensName} (${address})` : address}
-        </div> */}
-        <div className="font-bookmania">Connected to {connector.name}</div>
-        <Button onClick={disconnect}>Disconnect</Button>
-      </div>
-    );
-  }
-
   return (
-    <div>
-      {connectors.map((connector) => (
-        <Button
-          // disabled={!connector.ready}
-          key={connector.id}
-          onClick={() => connect({ connector })}
-        >
-          {connector.name}
-          {!connector.ready && " (unsupported)"}
-          {isLoading &&
-            connector.id === pendingConnector?.id &&
-            " (connecting)"}
-        </Button>
-      ))}
 
+    <div className="flex flex-row items-center justify-self-end">
+      {address ? <div className="font-akkurat-bold text-sm w-32 truncate p-2">{address}</div> : null
+      }
+      {
+        isConnected ?
+          (
+            <Button onClick={disconnect}>Disconnect</Button>
+          ) : connectors.map((connector) => (
+            <Button
+              key={connector.id}
+              onClick={() => connect({ connector })}
+            >
+              {connector.name}
+            </Button>
+          ))
+      }
       {error && <div>{error.message}</div>}
     </div>
+
   );
 }

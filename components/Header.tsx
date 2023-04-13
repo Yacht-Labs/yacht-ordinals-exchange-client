@@ -2,13 +2,14 @@ import React from "react";
 import Link from "next/link";
 import Button from "./Button";
 import { Profile } from "./Profile";
-
+import { Suspense } from "react";
 interface HeaderProps {
   className?: string;
   ethAddress?: string;
   onClickConnect?: () => void;
   onClickDisconnect?: () => void;
 }
+
 
 const Header: React.FC<HeaderProps> = ({
   className,
@@ -17,6 +18,7 @@ const Header: React.FC<HeaderProps> = ({
   onClickDisconnect,
 }) => {
   return (
+
     <div className="flex flex-row justify-between py-8 px-8">
       <Link href="/">
         <div className="flex space-x-3 focus:cursor: cursor-pointer">
@@ -26,18 +28,11 @@ const Header: React.FC<HeaderProps> = ({
           </span>
         </div>
       </Link>
-      <div className="flex-row justify-self-end">
-        <Profile />
-      </div>
-      {/* <div className="flex-row justify-end">
-        <Button className="px-4" onClick={onClickConnect}>
-          {ethAddress ? ethAddress : "Connect"}
-        </Button>
-        {ethAddress ? (
-          <Button onClick={onClickDisconnect}>Disconnect</Button>
-        ) : null}
-      </div> */}
+
+      <Profile />
+
     </div>
+
   );
 };
 export default Header;
