@@ -22,22 +22,28 @@ export const Profile: React.FC<ProfileProps> = ({ ethAddress, onClickConnect, on
   return (
 
     <div className="flex flex-row items-center justify-self-end">
-      {address ? <div className="font-akkurat-bold text-sm w-32 truncate p-2">{address}</div> : null
-      }
+
+
       {
-        isConnected ?
+        isConnected && address ?
           (
-            <Button onClick={disconnect}>Disconnect</Button>
-          ) : connectors.map((connector) => (
-            <Button
-              key={connector.id}
-              onClick={() => connect({ connector })}
-            >
-              {connector.name}
-            </Button>
-          ))
-      }
+            <div className="flex flex-col items-center">
+              <Button key={"disconnect"} onClick={disconnect}>Disconnect</Button>
+              <div className="text-xs truncate w-24">{address}</div>
+            </div>
+          ) : null}
+      {!isConnected ? connectors.map((connector) => (
+        <Button
+          key={connector.id}
+          onClick={() => connect({ connector })}
+        >
+          {connector.name}
+        </Button>
+
+      )) : null}
       {error && <div>{error.message}</div>}
+
+
     </div>
 
   );
