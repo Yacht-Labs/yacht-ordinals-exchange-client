@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import Button from "../components/Button";
 import Header from "../components/Header";
 import OrdinalCard from "../components/OrdinalCard";
-import useConnectMetaMask from "../hooks/useConnectMetaMask";
 import TextInput from "../components/TextInput";
 import Lottie from "react-lottie";
 import animationData from "../public/cubicmaths.json";
@@ -11,8 +10,6 @@ import { useAccount } from "wagmi";
 
 const List: NextPage = () => {
   const { address, connector, isConnected } = useAccount();
-
-  // const { address, connectMetaMask, disconnectMetaMask } = useConnectMetaMask();
   const [inscriptionNumber, setInscriptionNumber] = useState("");
   const [ethPrice, setEthPrice] = useState("");
   const [inscriptionId, setInscriptionId] = useState("");

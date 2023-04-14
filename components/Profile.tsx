@@ -25,7 +25,7 @@ export const Profile: React.FC<ProfileProps> = ({ className }) => {
           (
             <div className="flex flex-col items-center">
               <Button className="w-32" onClick={disconnect}>Disconnect</Button>
-              <Link href="/profile"><Button className="m-2 truncate p-2 w-32">{address}</Button></Link>
+              <Link href="/profile-page"><Button className="m-2 truncate p-2 w-32">{address}</Button></Link>
             </div>
 
           ) : null}

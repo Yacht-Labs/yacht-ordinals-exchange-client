@@ -11,7 +11,6 @@ import animationData from "../public/cubicmaths.json";
 
 const Home: NextPage = () => {
   const [listings, setListings] = useState<OrdinalListing[]>([]);
-  const { address, connectMetaMask, disconnectMetaMask } = useConnectMetaMask();
   const [loading, setLoading] = useState<boolean>(true);
 
   const defaultOptions = {
@@ -23,11 +22,7 @@ const Home: NextPage = () => {
     },
   };
 
-  async function delay(ms: number): Promise<void> {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
   useEffect(() => {
-    console.log("baseUrl", process.env.API_BASE_URL);
     const fetchData = async () => {
       try {
         const response = await fetch(`${process.env.API_BASE_URL}/listings`);
@@ -46,15 +41,11 @@ const Home: NextPage = () => {
 
     fetchData();
   }, []);
-  //  <body className="bg-yacht-white h-screen">
+
   return (
     <div className="flex flex-col h-full">
       <div className="h-min">
-        <Header
-          onClickConnect={connectMetaMask}
-          onClickDisconnect={disconnectMetaMask}
-          ethAddress={address}
-        />
+        <Header />
       </div>
       <div className="flex justify-center">
         <Link href="/list">
