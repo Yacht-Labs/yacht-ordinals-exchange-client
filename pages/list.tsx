@@ -154,7 +154,7 @@ const List: NextPage = () => {
           <p className="mt-4">
             Enter valid ordinal number, price and connect wallet
           </p>
-        ) : null};
+        ) : null}
         {loading ? (
           <Lottie options={defaultOptions} height={280} width={280} />
         ) : null}
