@@ -150,7 +150,7 @@ const List: NextPage = () => {
         {isValid && address && ethPrice && !isOwnedByMe ? (
           <Button onClick={listOrdinal}>List Ordinal</Button>
         ) : null}
-        {!isValid ? (
+        {!isValid && !btcAddress ? (
           <p className="mt-4">
             Enter valid ordinal number, price and connect wallet
           </p>
