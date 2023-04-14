@@ -11,75 +11,77 @@ import Link from "next/link";
 import { OrdinalListing } from "../types/yoecTypes";
 
 const ProfilePage: NextPage = () => {
-    const [listings, setListings] = useState<OrdinalListing[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const { address, connector, isConnected } = useAccount();
+  const [listings, setListings] = useState<OrdinalListing[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const { address, connector, isConnected } = useAccount();
 
-    const defaultOptions = {
-        loop: true,
-        autoplay: true,
-        animationData: animationData,
-        rendererSettings: {
-            preserveAspectRatio: "xMidYMid slice",
-        },
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.API_BASE_URL}/listings?address=${address}`
+        );
+        if (!response.ok) {
+          throw new Error("Error fetching data");
+        }
+        const data = await response.json();
+        console.log(data);
+        setListings(data);
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        console.error("Error:", error);
+      }
     };
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await fetch(`${process.env.API_BASE_URL}/listings?address=${address}`);
-                if (!response.ok) {
-                    throw new Error("Error fetching data");
-                }
-                const data = await response.json();
-                console.log(data);
-                setListings(data);
-                setLoading(false);
-            } catch (error) {
-                setLoading(false);
-                console.error("Error:", error);
-            }
-        };
+    fetchData();
+  }, []);
 
-        fetchData();
-
-
-
-    }, []);
-
-    async function sendInscriptionTouched(inscriptionId: string, address: string) {
-        if (typeof window.unisat === 'undefined') {
-            alert("Please install the Unisat extension to use this feature.")
-        }
-        const txid = await unisat.sendInscription(address, inscriptionId)
+  async function sendInscriptionTouched(
+    inscriptionId: string,
+    address: string
+  ) {
+    if (typeof window.unisat === "undefined") {
+      alert("Please install the Unisat extension to use this feature.");
     }
+    const txid = await unisat.sendInscription(address, inscriptionId);
+  }
 
-    return (
-        <div className="flex flex-col h-full">
-            <div className="h-min">
-                <Header />
-            </div>
-            <div className="flex justify-center">
-                <div className="font-bookmania text-4xl">My Listings</div>
-            </div>
-            {loading ? (
-                <Lottie options={defaultOptions} height={280} width={280} />
-            ) : null}
-            <div className="flex flex-wrap py-8 px-8">
-                {listings.map((item) => (
-
-                    <OrdinalCard
-                        key={item.id}
-                        ethPrice={item.ethPrice}
-                        inscriptionId={item.inscriptionId}
-                        inscriptionNumber={item.inscriptionNumber}
-                        isOwnedByMe={true}
-                        sendInscriptionTouched={() => sendInscriptionTouched(item.inscriptionId, item.pkpBtcAddress)}
-                    />
-
-                ))}
-            </div>
-        </div>
-    );
+  return (
+    <div className="flex flex-col h-full">
+      <div className="h-min">
+        <Header />
+      </div>
+      <div className="flex justify-center">
+        <div className="font-bookmania text-4xl">My Listings</div>
+      </div>
+      {loading ? (
+        <Lottie options={defaultOptions} height={280} width={280} />
+      ) : null}
+      <div className="flex flex-wrap py-8 px-8">
+        {listings.map((item) => (
+          <OrdinalCard
+            key={item.id}
+            ethPrice={item.ethPrice}
+            inscriptionId={item.inscriptionId}
+            inscriptionNumber={item.inscriptionNumber}
+            isOwnedByMe={true}
+            sendInscriptionTouched={() =>
+              sendInscriptionTouched(item.inscriptionId, item.pkpBtcAddress)
+            }
+          />
+        ))}
+      </div>
+    </div>
+  );
 };
 export default ProfilePage;
