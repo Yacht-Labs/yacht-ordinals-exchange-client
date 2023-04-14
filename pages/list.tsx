@@ -116,11 +116,7 @@ const List: NextPage = () => {
   return (
     <div className="flex flex-col h-full">
       <div className="h-min">
-        <Header
-          // onClickConnect={connectMetaMask}
-          // onClickDisconnect={disconnectMetaMask}
-          ethAddress={address}
-        />
+        <Header />
       </div>
       <div className="flex flex-col items-center">
         <TextInput
@@ -147,7 +143,7 @@ const List: NextPage = () => {
               sendInscriptionTouched(inscriptionId, btcAddress)}
           />
         ) : null}
-        {isValid && address && ethPrice && !isOwnedByMe ? (
+        {isValid && address && ethPrice && !isOwnedByMe && !loading ? (
           <Button onClick={listOrdinal}>List Ordinal</Button>
         ) : null}
         {!isValid && !btcAddress ? (
