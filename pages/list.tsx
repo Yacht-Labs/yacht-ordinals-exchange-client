@@ -16,6 +16,7 @@ const List: NextPage = () => {
   const [isValid, setIsValid] = useState(false);
   const [loading, setLoading] = useState(false);
   const [btcAddress, setBtcAddress] = useState("");
+  const [isOwnedByMe, setIsOwnedByMe] = useState(false);
 
   const defaultOptions = {
     loop: true,
@@ -96,8 +97,21 @@ const List: NextPage = () => {
       setLoading(false);
       console.log(result);
       setBtcAddress(result.pkpBtcAddress);
+      if (result.pkpBtcAddress) {
+        setIsOwnedByMe(true);
+      }
     }
   };
+
+  async function sendInscriptionTouched(
+    inscriptionId: string,
+    address: string
+  ) {
+    if (typeof window.unisat === "undefined") {
+      alert("Please install the Unisat extension to use this feature.");
+    }
+    const txid = await unisat.sendInscription(address, inscriptionId);
+  }
 
   return (
     <div className="flex flex-col h-full">
@@ -128,9 +142,12 @@ const List: NextPage = () => {
             inscriptionNumber={inscriptionNumber}
             ethPrice={ethPrice}
             inscriptionId={inscriptionId}
+            isOwnedByMe={isOwnedByMe}
+            sendInscriptionTouched={() =>
+              sendInscriptionTouched(inscriptionId, btcAddress)}
           />
         ) : null}
-        {isValid && address && ethPrice ? (
+        {isValid && address && ethPrice && !isOwnedByMe ? (
           <Button onClick={listOrdinal}>List Ordinal</Button>
         ) : (
           <p className="mt-4">
@@ -139,9 +156,6 @@ const List: NextPage = () => {
         )}
         {loading ? (
           <Lottie options={defaultOptions} height={280} width={280} />
-        ) : null}
-        {btcAddress ? (
-          <p className="mt-4">Send Ordinal to BTC Address: {btcAddress}</p>
         ) : null}
       </div>
     </div>
