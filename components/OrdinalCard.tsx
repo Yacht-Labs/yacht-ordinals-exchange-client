@@ -28,7 +28,7 @@ const OrdinalCard: React.FC<OrdinalCardProps> = ({
         />
       </div>
       <div className="flex font-akkurat-bold self-center py-4 text-xl">{`${ethPrice} Ξ`}</div>
-      {isOwnedByMe ? (<Button className="w-32" onClick={() => sendInscriptionTouched(inscriptionId)}>Send Inscription to PKP</Button>) : null}
+      {isOwnedByMe ? (<Button className="w-54 self-center" onClick={() => sendInscriptionTouched(inscriptionId)}>Send Inscription to PKP</Button>) : null}
     </div>
   );
 };
