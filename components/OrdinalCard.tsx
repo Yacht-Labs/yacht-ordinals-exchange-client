@@ -1,10 +1,13 @@
 import React from "react";
+import Button from "./Button";
 
 interface OrdinalCardProps {
   className?: string;
   inscriptionNumber: string;
   ethPrice: string;
   inscriptionId: string;
+  sendInscriptionTouched: (inscriptionId: string) => void;
+  isOwnedByMe: boolean;
 }
 
 const OrdinalCard: React.FC<OrdinalCardProps> = ({
@@ -12,6 +15,8 @@ const OrdinalCard: React.FC<OrdinalCardProps> = ({
   inscriptionNumber,
   ethPrice,
   inscriptionId,
+  sendInscriptionTouched,
+  isOwnedByMe
 }) => {
   return (
     <div className="flex flex-col px-8 py-8 justify-between bg-slate-300 rounded">
@@ -23,6 +28,7 @@ const OrdinalCard: React.FC<OrdinalCardProps> = ({
         />
       </div>
       <div className="flex font-akkurat-bold self-center py-4 text-xl">{`${ethPrice} Ξ`}</div>
+      {isOwnedByMe ? (<Button className="w-32" onClick={() => sendInscriptionTouched(inscriptionId)}>Send Inscription to PKP</Button>) : null}
     </div>
   );
 };

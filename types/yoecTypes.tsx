@@ -4,4 +4,5 @@ export interface OrdinalListing {
   ethPrice: string;
   inscriptionId: string;
   pkpPublicKey: string;
+  pkpBtcAddress: string;
 }
