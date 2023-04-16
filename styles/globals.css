@@ -26,4 +26,8 @@
   font-weight: bold;
 }
 
+.a {
+  color: rgb(107 33 168);
+}
+
 @tailwind utilities;
