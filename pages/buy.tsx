@@ -8,13 +8,14 @@ import useConnectMetaMask from "../hooks/useConnectMetaMask";
 import { OrdinalListing } from "../types/yoecTypes";
 import { ethers } from "ethers";
 import detectEthereumProvider from "@metamask/detect-provider";
-import { WagmiConfig, createClient, configureChains, mainnet } from 'wagmi'
-import { polygonMumbai } from "wagmi/chains"
-import { alchemyProvider } from 'wagmi/providers/alchemy'
-import { publicProvider } from 'wagmi/providers/public'
-interface BuyPageProps {
-  id: string;
-}
+import { WagmiConfig, createClient, configureChains, mainnet } from "wagmi";
+import { polygonMumbai } from "wagmi/chains";
+import { alchemyProvider } from "wagmi/providers/alchemy";
+import { publicProvider } from "wagmi/providers/public";
+import { BuyPageProps } from "../types/yoecTypes";
+import Lottie from "react-lottie";
+import animationData from "../public/cubicmaths.json";
+
 import {
   useAccount,
   useConnect,
@@ -22,14 +23,25 @@ import {
   useEnsAvatar,
   useEnsName,
 } from "wagmi";
+import { useYachtAccount } from "../hooks/useYachtAccount";
 
 const Buy: React.FC<BuyPageProps> = ({ id }) => {
-  // const { address, provider, signer, connectMetaMask, disconnectMetaMask } = useConnectMetaMask();
   const [listing, setListing] = useState<OrdinalListing | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const [buyAddress, setBuyAddress] = useState<string | null>(null);
   const [amount, setAmount] = useState<string>("");
   const [provider, setProvider] = useState<any>(null);
   const { address, connector, isConnected } = useAccount();
+  const { yachtAccount } = useYachtAccount();
+
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,72 +67,37 @@ const Buy: React.FC<BuyPageProps> = ({ id }) => {
     const getProvider = async () => {
       const ethereumProvider = await detectEthereumProvider();
       setProvider(ethereumProvider);
-    }
+    };
     getProvider();
-
   }, []);
 
-  const sendTransaction = async () => {
+  const buyOrdinal = async () => {
+    if (listing == null) {
+      throw new Error("Listing is null");
+    }
     if (!provider || !buyAddress || !amount || !address) {
       alert(
-        "Please fill in all the fields and make sure MetaMask is installed."
+        "Please fill in all the fields and make sure a compatible wallet is installed."
       );
       return;
     }
 
     const signer = new ethers.providers.Web3Provider(provider).getSigner();
     const weiAmount = ethers.utils.parseEther(amount);
-
+    setLoading(true);
     try {
       const tx = await signer.sendTransaction({
         to: buyAddress,
         value: weiAmount,
       });
-      await tx.wait();
-      alert(`Transaction successful! Hash: ${tx.hash}`);
-    } catch (error) {
-      console.error(error);
-      alert("Transaction failed. Please check the console for more details.");
-    }
-  };
+      const result = await tx.wait();
 
-  async function getPubKey(): Promise<string> {
-    // Get public key for encryption with salsa20-poly1305
-    // Key is returned as base64
-    const keyB64 = (await window.ethereum.request({
-      method: "eth_getEncryptionPublicKey",
-      params: [address],
-    })) as string;
-    //const publicKey = Buffer.from(keyB64, "base64");
-    return keyB64;
-  }
-
-  async function decryptMessage(structuredData: any) {
-    const ct = `0x${Buffer.from(
-      JSON.stringify(structuredData),
-      "utf8"
-    ).toString("hex")}`;
-    const decrypt = await window.ethereum.request({
-      method: "eth_decrypt",
-      params: [ct, address],
-    });
-    alert(decrypt);
-  }
-
-  const buyOrdinal = async () => {
-    if (!listing) {
-      return;
-    }
-    try {
-      const pubkey = await getPubKey();
       const payload = {
-        listingId: id,
-        pkpPublicKey: listing.pkpPublicKey,
-        encryptionPubKey: pubkey,
-        isBuy: true,
+        listingId: listing.id,
+        accountId: yachtAccount.id,
       };
 
-      const response = await fetch(`${process.env.API_BASE_URL}/listings`, {
+      const response = await fetch(`${process.env.API_BASE_URL}/listings/buy`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -129,8 +106,13 @@ const Buy: React.FC<BuyPageProps> = ({ id }) => {
       });
       const data = await response.json();
       console.log(data);
-      decryptMessage(data);
-    } catch (error) { }
+      setListing(data);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.error(error);
+      alert("Transaction failed. Please check the console for more details.");
+    }
   };
 
   return (
@@ -145,10 +127,13 @@ const Buy: React.FC<BuyPageProps> = ({ id }) => {
               inscriptionId={listing.inscriptionId}
             />
           ) : null}
-          {listing && address ? (
-            <Button onClick={sendTransaction} className="w-32 mt-4">
+          {listing && address && listing.status == "Ready" && !loading ? (
+            <Button onClick={buyOrdinal} className="w-32 mt-4">
               Buy Ordinal
             </Button>
+          ) : null}
+          {loading ? (
+            <Lottie options={defaultOptions} height={280} width={280} />
           ) : null}
         </div>
       </div>
