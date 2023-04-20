@@ -26,3 +26,7 @@ export interface YachtAccountProviderProps {
 export interface BuyPageProps {
   id: string;
 }
+
+export interface WithdrawPageProps {
+  id: string;
+}

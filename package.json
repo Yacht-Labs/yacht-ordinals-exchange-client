@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@ethersproject/transactions": "^5.7.0",
+    "@lit-protocol/lit-node-client": "^2.1.123",
     "@lottiefiles/lottie-player": "^1.7.1",
     "@metamask/detect-provider": "^2.0.0",
     "@tailwindcss/typography": "^0.5.9",

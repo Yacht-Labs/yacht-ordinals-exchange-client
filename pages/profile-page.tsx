@@ -136,14 +136,16 @@ const ProfilePage: NextPage = () => {
       ) : null}
       <div className="flex flex-wrap py-8 px-8">
         {buyerListings.map((item) => (
-          <div className="flex flex-col">
-            <OrdinalCard
-              key={item.id}
-              ethPrice={item.ethPrice}
-              inscriptionId={item.inscriptionId}
-              inscriptionNumber={item.inscriptionNumber}
-            />
-          </div>
+          <Link href={`/withdraw?id=${item.id}`}>
+            <div className="flex flex-col">
+              <OrdinalCard
+                key={item.id}
+                ethPrice={item.ethPrice}
+                inscriptionId={item.inscriptionId}
+                inscriptionNumber={item.inscriptionNumber}
+              />
+            </div>
+          </Link>
         ))}
       </div>
     </div>
