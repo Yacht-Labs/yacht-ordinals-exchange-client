@@ -14,6 +14,7 @@ import { publicProvider } from "wagmi/providers/public";
 import { BuyPageProps } from "../types/yoecTypes";
 import Lottie from "react-lottie";
 import animationData from "../public/cubicmaths.json";
+import { useRouter } from 'next/router';
 
 import {
   useAccount,
@@ -32,7 +33,7 @@ const Buy: React.FC<BuyPageProps> = ({ id }) => {
   const [provider, setProvider] = useState<any>(null);
   const { address, connector, isConnected } = useAccount();
   const { yachtAccount } = useYachtAccount();
-
+  const router = useRouter();
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -107,6 +108,7 @@ const Buy: React.FC<BuyPageProps> = ({ id }) => {
       console.log(data);
       setListing(data);
       setLoading(false);
+      router.push('/profile-page');
     } catch (error) {
       setLoading(false);
       console.error(error);
@@ -126,7 +128,7 @@ const Buy: React.FC<BuyPageProps> = ({ id }) => {
               inscriptionId={listing.inscriptionId}
             />
           ) : null}
-          {listing && address && listing.status == "Ready" && !loading ? (
+          {listing && address && listing.status == "Ready" && !loading && listing.buyerAccountId != yachtAccount.id ? (
             <Button onClick={buyOrdinal} className="w-32 mt-4">
               Buy Ordinal
             </Button>

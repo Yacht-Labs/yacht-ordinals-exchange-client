@@ -7,6 +7,7 @@ import TextInput from "../components/TextInput";
 import Lottie from "react-lottie";
 import animationData from "../public/cubicmaths.json";
 import { useAccount } from "wagmi";
+import { useRouter } from 'next/router';
 
 const List: NextPage = () => {
   const { address, connector, isConnected } = useAccount();
@@ -15,8 +16,7 @@ const List: NextPage = () => {
   const [inscriptionId, setInscriptionId] = useState("");
   const [isValid, setIsValid] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [btcAddress, setBtcAddress] = useState("");
-  const [isOwnedByMe, setIsOwnedByMe] = useState(false);
+  const router = useRouter();
 
   const defaultOptions = {
     loop: true,
@@ -96,22 +96,9 @@ const List: NextPage = () => {
       );
       setLoading(false);
       console.log(result);
-      setBtcAddress(result.pkpBtcAddress);
-      if (result.pkpBtcAddress) {
-        setIsOwnedByMe(true);
-      }
+      router.push('/profile-page');
     }
   };
-
-  async function sendInscriptionTouched(
-    inscriptionId: string,
-    address: string
-  ) {
-    if (typeof window.unisat === "undefined") {
-      alert("Please install the Unisat extension to use this feature.");
-    }
-    const txid = await unisat.sendInscription(address, inscriptionId);
-  }
 
   return (
     <div className="flex flex-col h-full">
@@ -135,18 +122,16 @@ const List: NextPage = () => {
         />
         {isValid ? (
           <OrdinalCard
+            key={inscriptionId}
             inscriptionNumber={inscriptionNumber}
             ethPrice={ethPrice}
             inscriptionId={inscriptionId}
-            isOwnedByMe={isOwnedByMe}
-            sendInscriptionTouched={() =>
-              sendInscriptionTouched(inscriptionId, btcAddress)}
           />
         ) : null}
-        {isValid && address && ethPrice && !isOwnedByMe && !loading ? (
+        {isValid && address && ethPrice && !loading ? (
           <Button onClick={listOrdinal}>List Ordinal</Button>
         ) : null}
-        {!isValid && !btcAddress ? (
+        {!isValid ? (
           <p className="mt-4">
             Enter valid ordinal number, price and connect wallet
           </p>

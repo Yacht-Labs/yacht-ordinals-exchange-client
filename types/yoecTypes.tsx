@@ -6,6 +6,8 @@ export interface OrdinalListing {
   pkpPublicKey: string;
   pkpBtcAddress: string;
   status: string;
+  buyerAccountId: string;
+  buyerAccount: YachtAccount;
 }
 export interface YachtAccount {
   id: string;
