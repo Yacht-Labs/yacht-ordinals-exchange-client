@@ -25,6 +25,7 @@ const Home: NextPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        console.log("process.env.API_BASE_URL ", process.env.API_BASE_URL);
         const response = await fetch(`${process.env.API_BASE_URL}/listings`);
         if (!response.ok) {
           throw new Error("Error fetching data");
@@ -48,9 +49,17 @@ const Home: NextPage = () => {
         <Header />
       </div>
       <div className="flex justify-center flex-col items-center">
-        <div className="font-bookmania text-2xl text-center">Important Notice:</div>
-        <div className="font-akkurat px-8">We are migrating our Lit Network implementation currently so the exchange is not yet operational. Do not attempt to list an ordinal yet. For exchange updates please join our Telegram, thank you.</div>
-        <Link href="https://t.me/yachtordinalexchange"><Button className="m-4 w-48 text-center">Join Telegram Group</Button></Link>
+        <div className="font-bookmania text-2xl text-center">
+          Important Notice:
+        </div>
+        <div className="font-akkurat px-8">
+          We are migrating our Lit Network implementation currently so the
+          exchange is not yet operational. Do not attempt to list an ordinal
+          yet. For exchange updates please join our Telegram, thank you.
+        </div>
+        <Link href="https://t.me/yachtordinalexchange">
+          <Button className="m-4 w-48 text-center">Join Telegram Group</Button>
+        </Link>
       </div>
       <div className="flex justify-center">
         <Link href="/list">
