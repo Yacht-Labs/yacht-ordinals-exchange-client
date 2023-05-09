@@ -22,6 +22,9 @@ module.exports = {
         "1/2": "50%",
         "1/1": "100%",
       },
+      backgroundColor: {
+        yacht: "#11222B",
+      },
     },
   },
   plugins: [require("@tailwindcss/typography")],
