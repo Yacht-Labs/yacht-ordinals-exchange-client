@@ -7,7 +7,7 @@ import TextInput from "../components/TextInput";
 import Lottie from "react-lottie";
 import animationData from "../public/cubicmaths.json";
 import { useAccount } from "wagmi";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 
 const List: NextPage = () => {
   const { address, connector, isConnected } = useAccount();
@@ -96,7 +96,7 @@ const List: NextPage = () => {
       );
       setLoading(false);
       console.log(result);
-      router.push('/profile-page');
+      router.push("/profile-page");
     }
   };
 
@@ -132,7 +132,7 @@ const List: NextPage = () => {
           <Button onClick={listOrdinal}>List Ordinal</Button>
         ) : null}
         {!isValid ? (
-          <p className="mt-4">
+          <p className="bodytext mt-4">
             Enter valid ordinal number, price and connect wallet
           </p>
         ) : null}

@@ -17,7 +17,7 @@ const TextInput: React.FC<TextInputProps> = ({
 }) => {
   return (
     <div className="flex flex-col w-72 p-2">
-      <label htmlFor={id} className="mb-1 text-sm font-semibold">
+      <label htmlFor={id} className="bodytext mb-1 text-sm font-semibold">
         {label}
       </label>
       <input
@@ -26,7 +26,7 @@ const TextInput: React.FC<TextInputProps> = ({
         name={name}
         placeholder={placeholder}
         onChange={onChange}
-        className="px-3 py-2 border border-gray-300 rounded"
+        className="bg-yacht bodytext border-2 px-3 py-2 rounded"
       />
     </div>
   );

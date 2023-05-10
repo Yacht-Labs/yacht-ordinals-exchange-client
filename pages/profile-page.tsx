@@ -91,7 +91,9 @@ const ProfilePage: NextPage = () => {
         <Header />
       </div>
       <div className="flex justify-center">
-        <div className="font-bookmania text-2xl">My Listings For Sale</div>
+        <div className="font-archivo headline text-2xl">
+          My Listings For Sale
+        </div>
       </div>
       {sellerLoading ? (
         <Lottie options={defaultOptions} height={280} width={280} />
@@ -129,7 +131,9 @@ const ProfilePage: NextPage = () => {
         ))}
       </div>
       <div className="flex justify-center">
-        <div className="font-bookmania text-2xl">My Purchased Listings</div>
+        <div className="font-archivo headline text-2xl">
+          My Purchased Listings
+        </div>
       </div>
       {buyerLoading ? (
         <Lottie options={defaultOptions} height={280} width={280} />

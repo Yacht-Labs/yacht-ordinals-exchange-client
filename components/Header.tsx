@@ -1,5 +1,6 @@
 import React from "react";
 import dynamic from "next/dynamic";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import Button from "./Button";
 //import { Profile } from "./Profile";
@@ -16,11 +17,10 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
     <div className="flex flex-row justify-between py-8 px-8">
       <Link href="/">
         <div className="flex space-x-3 focus:cursor: cursor-pointer">
-          <img src="/YachtLogo.svg" className="h-16 md:h-20" />
-          <span className="self-center font-bookmania text-xl pl-2 md:text-2xl">
-            Yacht Ordinal Exchange
-          </span>
-          <span className="font-akkurat-bold text-sm">Testnet</span>
+          <img src="/Yacht_Logomark_White.png" className="h-16 md:h-20" />
+          <div className="logo self-center font-archivo-narrow text-xl md:text-2xl">
+            yacht.
+          </div>
         </div>
       </Link>
 

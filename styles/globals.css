@@ -18,7 +18,7 @@
 }
 
 .custom-button {
-  background: rgb(107 33 168);
+  background: rgb(224 164 144);
   padding: 10px;
   color: white;
   border-radius: 8px;
@@ -30,4 +30,35 @@
   color: rgb(107 33 168);
 }
 
+@layer base {
+  body {
+    @apply bg-yacht
+  }
+}
+
+@layer components {
+  .logo {
+    color: rgb(255 255 255);
+  }
+  .headline {
+    color: rgb(207 112 101);
+  }
+  .bodytext {
+    color: rgb(194 221 228);
+  }
+  .darkblue {
+    color: rgb(118 178 193)
+  }
+  .ordcard {
+    @apply bg-yacht;
+  }
+}
+
+@layer utilities {
+  .ordcard {
+    @apply bg-yacht;
+  }
+}
+
 @tailwind utilities;
+
