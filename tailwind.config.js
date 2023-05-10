@@ -15,6 +15,7 @@ module.exports = {
       bookmania: ["bookmania", "sans-serif"],
       "akkurat-bold": ["akkurat-bold", "sans-serif"],
       "akkurat-regular": ["akkurat-regular", "sans-serif"],
+      "archivo-narrow": ["archivo-narrow", "sans-serif"],
     },
     extend: {
       spacing: {

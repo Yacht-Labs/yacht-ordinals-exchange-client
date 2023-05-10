@@ -17,6 +17,11 @@
   src: url("../design/Akkurat-Regular.ttf");
 }
 
+@font-face {
+  font-family: "archivo-narrow";
+  src: url("../design/Archivo-Narrow.ttf");
+}
+
 .custom-button {
   background: rgb(224 164 144);
   padding: 10px;

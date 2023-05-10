@@ -1,6 +1,5 @@
 import React from "react";
 import dynamic from "next/dynamic";
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import Button from "./Button";
 //import { Profile } from "./Profile";
